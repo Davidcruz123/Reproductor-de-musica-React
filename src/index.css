@@ -11,3 +11,58 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.fila{
+display: grid;
+grid-template-columns: 35px auto;
+
+
+border: solid rgb(255, 255, 255);
+ border-width: thin;
+ font-size: 110%;
+}
+.indice{
+  background-color: rgb(18, 18, 18);
+
+}
+
+.cancion{
+  background-color: black;
+  
+}
+
+.bottonbar{
+  background-color: rgb(65, 64, 64);
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  
+}
+
+.cancionactual{
+  background-color: rgb(65, 64, 64)  !important;
+ /* color: red; */
+}
+
+.simboloplay{
+  color: white;
+  font-size: 160%;
+}
+.simboloslado{
+  color: white;
+  font-size: 180%;
+}
+.escondido{
+  display: none;
+}
+
+.contenedorsimbolos{
+
+width: 170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
