@@ -40,7 +40,17 @@ export class FetchingExample extends React.Component {
 
         copia[this.memoria].clasecancion = "cancionactual";
 
+        
         this.setState({ fetchData: copia });
+
+        let copia2 = [...this.state.clasesbotones]
+        copia2[0].play = "fas fa-play simboloplay "
+        copia2[0].stop = "fas fa-pause-circle simboloplay escondido"
+        this.setState({ clasesbotones: copia2 })
+
+
+
+
 
     }
 
@@ -60,6 +70,10 @@ export class FetchingExample extends React.Component {
 
         this.setState({ fetchData: copia });
 
+        let copia2 = [...this.state.clasesbotones]
+        copia2[0].play = "fas fa-play simboloplay "
+        copia2[0].stop = "fas fa-pause-circle simboloplay escondido"
+        this.setState({ clasesbotones: copia2 })
 
         
     }
@@ -86,7 +100,7 @@ export class FetchingExample extends React.Component {
 
 
             </audio>)
-            console.log(this.state.fetchData[0],"flaj kfdajksfdafd")
+    
         }
     }
 
