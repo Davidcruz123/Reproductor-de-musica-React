@@ -10,9 +10,10 @@ export class FetchingExample extends React.Component {
             clasesbotones: [{
                 play: "fas fa-play simboloplay",
                 stop: "fas fa-pause-circle simboloplay escondido"
-            }]
+            }],
+            memoria:0
         };
-        this.memoria = 0;
+        // this.state.memoria = 0;
         this.primeravez = true;
 
     }
@@ -29,16 +30,16 @@ export class FetchingExample extends React.Component {
     
         let copia = [...this.state.fetchData];
 
-        copia[this.memoria]["claseid"] = "indice";
-        copia[this.memoria].clasecancion = "cancion";
-        this.memoria++;
-        if (this.memoria == copia.length) {
-            this.memoria = 0;
+        copia[this.state.memoria]["claseid"] = "indice";
+        copia[this.state.memoria].clasecancion = "cancion";
+        this.state.memoria++;
+        if (this.state.memoria == copia.length) {
+            this.state.memoria = 0;
         }
 
-        copia[this.memoria]["claseid"] = "cancionactual";
+        copia[this.state.memoria]["claseid"] = "cancionactual";
 
-        copia[this.memoria].clasecancion = "cancionactual";
+        copia[this.state.memoria].clasecancion = "cancionactual";
 
         
         this.setState({ fetchData: copia });
@@ -57,16 +58,16 @@ export class FetchingExample extends React.Component {
     atras(id) {
         let copia = [...this.state.fetchData];
 
-        copia[this.memoria]["claseid"] = "indice";
-        copia[this.memoria].clasecancion = "cancion";
-        this.memoria--;
-        if (this.memoria == -1) {
-            this.memoria = copia.length - 1;
+        copia[this.state.memoria]["claseid"] = "indice";
+        copia[this.state.memoria].clasecancion = "cancion";
+        this.state.memoria--;
+        if (this.state.memoria == -1) {
+            this.state.memoria = copia.length - 1;
         }
 
-        copia[this.memoria]["claseid"] = "cancionactual";
+        copia[this.state.memoria]["claseid"] = "cancionactual";
 
-        copia[this.memoria].clasecancion = "cancionactual";
+        copia[this.state.memoria].clasecancion = "cancionactual";
 
         this.setState({ fetchData: copia });
 
@@ -84,6 +85,7 @@ export class FetchingExample extends React.Component {
         copia[0].play = "fas fa-play simboloplay escondido"
         copia[0].stop = "fas fa-pause-circle simboloplay "
         this.setState({clasesbotones:copia})
+        console.log("reproducir",this.state.memoria)
     }
     pausar() {
         document.getElementById("reproductor").pause()
@@ -96,14 +98,51 @@ export class FetchingExample extends React.Component {
 
     insertaretiquetasonido(){
         if (this.state.fetchData[0] !== undefined) {
-            return (<audio id="reproductor" controls source src={"https://assets.breatheco.de/apis/sound/" + this.state.fetchData[this.memoria].url} type="audio/mp3" style={{ display: "none" }} >
+            return (<audio id="reproductor" controls source src={"https://assets.breatheco.de/apis/sound/" + this.state.fetchData[this.state.memoria].url} type="audio/mp3" style={{ display: "none" }} >
 
 
             </audio>)
     
         }
     }
+    seleccionarcancion(id){
+        // document.getElementById("reproductor").pause()
+        this.pausar()
+        console.log(id)
+       
+        this.setState({ memoria:id }, () => {               //el estado no se está actualizando inmediatamente, debido a eso necesito meter la función dentro
+            //callback
+            console.log(this.state.memoria) // myname
+            this.reproducir()
+        });
+     
 
+       console.log(this.state.memoria,"113")
+
+
+
+        let copia = [...this.state.fetchData];
+
+        copia[this.state.memoria]["claseid"] = "indice";
+        copia[this.state.memoria].clasecancion = "cancion";
+        
+
+        this.setState({ fetchData: copia });
+        
+
+        copia[id]["claseid"] = "cancionactual";
+
+        copia[id].clasecancion = "cancionactual";
+
+        this.setState({ fetchData: copia });
+
+        // let copia2 = [...this.state.clasesbotones]
+        // copia2[0].play = "fas fa-play simboloplay "
+        // copia2[0].stop = "fas fa-pause-circle simboloplay escondido"
+        // this.setState({ clasesbotones: copia2 })
+    
+       
+    }
 
 
     render() {
@@ -115,8 +154,8 @@ export class FetchingExample extends React.Component {
         return (
             <div>
 
-                {this.state.fetchData.map((song, i) => {
-                    if (this.primeravez == true) {
+                {this.state.fetchData.map((song, i) => {           
+                    if (this.primeravez == true) {                     //clase inicial de los div
                         if (i == 0) {
                             var valor = "cancionactual";
 
@@ -139,7 +178,7 @@ export class FetchingExample extends React.Component {
                     return (
                         <div className="fila text-light " key={i}>
                             <div className={this.state.fetchData[i].claseid}>{i + 1}</div>
-                            <div className={this.state.fetchData[i].clasecancion}>
+                            <div className={this.state.fetchData[i].clasecancion} onClick={() => this.seleccionarcancion(i)}>
                                 <div key={i}> {song.name} </div>
                             </div>
                         </div>
@@ -149,15 +188,15 @@ export class FetchingExample extends React.Component {
                 <div className="bottonbar">
                     <div className="contenedorsimbolos">
                         <i
-                            class="fas fa-caret-square-left simboloslado"
-                            onClick={() => this.atras(this.memoria)}
+                            className="fas fa-caret-square-left simboloslado"
+                            onClick={() => this.atras(this.state.memoria)}
                         ></i>
 
                         {<i className={this.state.clasesbotones[0].play} onClick={() => this.reproducir()}></i>}
                         <i className={this.state.clasesbotones[0].stop} onClick={()=> this.pausar()} ></i>
                         <i
-                            class="fas fa-caret-square-right simboloslado"
-                            onClick={() => this.adelante(this.memoria)}
+                            className="fas fa-caret-square-right simboloslado"
+                            onClick={() => this.adelante(this.state.memoria)}
                         ></i>
                     </div>
                 </div>
